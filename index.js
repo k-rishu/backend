@@ -20,6 +20,11 @@ app.get('/logout', (req, res) => {
   res.send("You have been logged out");
 })
 
+app.get("/login/:username",(req, res) => {
+  res.send(`this is your username ${username}`);
+})
+
 app.listen(process.env.PORT, () => {
   console.log(`Example app listening on port ${process.env.PORT}`)
 })
+
