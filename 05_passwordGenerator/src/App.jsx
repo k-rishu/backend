@@ -38,9 +38,9 @@ function App() {
   }, [numberAllowed, useChar, length, passwordGenerator])
   return (
     <>
-    <div className='w-full max-w-md mx-auto shadow-md rounded-lg px-4 my-4 text-orange-500 bg-gray-700'>
+    <div className='w-full max-w-lg mx-auto shadow-md rounded-lg px-4 my-4 text-orange-500 bg-gray-700'>
       <h1 className='text-white text-center'> Password </h1>
-      <div className='flex shadow rounded-lg overflow-hidden mb-4 py-6'>
+      <div className='flex rounded-lg overflow-hidden py-6'>
         <input 
         type='text'
         value={password}
@@ -54,7 +54,7 @@ function App() {
         className='outline-none bg-blue-400 text-white px-3 py-0.5 shrink-0 rounded-lg'>Copy</button>
       </div>
       <div className='flex text-sm gap-x-2'>
-        <div className='flex items-center gap-x-4  '>
+        <div className='flex items-center gap-x-4 my-4 '>
           <input
             type="range"
             min={8}
@@ -84,6 +84,12 @@ function App() {
           <label>Special Charecter</label>
         </div>
       </div>
+    </div>
+
+    <div className='w-full max-w-lg mx-auto shadow-md rounded-lg px-4 my-4 text-orange-300 bg-gray-700'>
+      <p className='text-sm'>Select Number checkbox to include number in password</p>
+      <p className='text-sm'>Select Special Character checkbox to include characters</p>
+      <p className='text-sm'>Slide the range pointer to change the length of password</p>
     </div>
     </>
   )
