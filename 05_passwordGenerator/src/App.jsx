@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
 
 import './App.css'
 
@@ -9,6 +9,9 @@ function App() {
 
   const [password, setPassword] = useState("")
 
+  //useRef Hook
+  const passwordRef = useRef(null);
+
   const passwordGenerator = useCallback(()=>{
     let pass = ""
     let str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
@@ -18,15 +21,24 @@ function App() {
 
     for(let i = 0; i <length; i++){
       let char = Math.floor(Math.random() * str.length +1)
-      pass = str.charAt(char)
+      pass += str.charAt(char)
     }
     setPassword(pass)
 
-  }, [length, numberAllowed, useChar, setPassword, password])
+  }, [length, numberAllowed, useChar, setPassword])
 
+  const copyPasswordtoClipboard = useCallback(() => {
+    passwordRef.current?.select() 
+    window.navigator.clipboard.writeText(password)
+   },
+   [password])
+
+  useEffect(()=>{
+    passwordGenerator()
+  }, [numberAllowed, useChar, length, passwordGenerator])
   return (
     <>
-    <div className='w-full max-w-md mx-auto shadow-md rounded-lg px-4 my-8 text-orange-500 bg-gray-700'>
+    <div className='w-full max-w-md mx-auto shadow-md rounded-lg px-4 my-4 text-orange-500 bg-gray-700'>
       <h1 className='text-white text-center'> Password </h1>
       <div className='flex shadow rounded-lg overflow-hidden mb-4 py-6'>
         <input 
@@ -35,11 +47,14 @@ function App() {
         className='outline-none w-full py-1 px-3 rounded-lg'
         placeholder='password'
         readOnly
+        ref={passwordRef}
         />
-        <button className='outline-none bg-blue-400 text-white px-3 py-0.5 shrink-0 rounded-lg'>Copy</button>
+        <button 
+        onClick={copyPasswordtoClipboard}
+        className='outline-none bg-blue-400 text-white px-3 py-0.5 shrink-0 rounded-lg'>Copy</button>
       </div>
       <div className='flex text-sm gap-x-2'>
-        <div className='flex items-center gap-x-1'>
+        <div className='flex items-center gap-x-4  '>
           <input
             type="range"
             min={8}
@@ -50,7 +65,7 @@ function App() {
           />
           <label>Length: {length}</label>
         </div>
-        <div className='flex items-center gap-x-1'>
+        <div className='flex items-center gap-x-4'>
           <input type="checkbox"
           defaultChecked={numberAllowed}
           id='numberInput'
@@ -59,7 +74,7 @@ function App() {
           }} />
           <label>Numbers</label>
         </div>
-        <div className='flex items-center gap-x-1'>
+        <div className='flex items-center gap-x-4'>
           <input type="checkbox"
           defaultChecked={numberAllowed}
           id='charInput'
